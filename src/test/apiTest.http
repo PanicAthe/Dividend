@@ -3,7 +3,7 @@ POST http://localhost:8080/company
 Content-Type: application/json
 
 {
-  "ticker": "AAPL"
+  "ticker": "MMM"
 }
 
 
@@ -12,7 +12,7 @@ GET http://localhost:8080/company
 
 
 ### Get All company dividend
-GET http://localhost:8080/finance/dividend/Realty Income Corporation
+GET http://localhost:8080/finance/dividend/3M Company
 
 
 ### Get autocomplete

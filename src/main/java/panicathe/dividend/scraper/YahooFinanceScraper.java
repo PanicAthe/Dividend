@@ -63,10 +63,7 @@ public class YahooFinanceScraper implements Scraper{
 
                         String dividend = cells.get(1).text().split(" ")[0];
 
-                        dividends.add(Dividend.builder()
-                                .date(LocalDateTime.of(year, month, day, 0, 0))
-                                .dividend(dividend)
-                                .build());
+                        dividends.add(new Dividend(LocalDateTime.of(year, month, day, 0, 0), dividend));
 
                     }
                 }
@@ -95,9 +92,7 @@ public class YahooFinanceScraper implements Scraper{
             Element titleEle = document.getElementsByTag("h1").get(1);
             String title = titleEle.text().split("\\(")[0].trim();
 
-            return Company.builder()
-                    .ticker(ticker)
-                    .name(title).build();
+            return new Company(ticker, title);
 
         }catch (IOException e){
             e.printStackTrace();
