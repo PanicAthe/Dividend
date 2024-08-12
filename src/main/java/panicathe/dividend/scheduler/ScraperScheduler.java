@@ -28,7 +28,7 @@ public class ScraperScheduler {
     private final DividendRepository dividendRepository;
 
     @CacheEvict(value = CacheKey.KEY_FINANCE, allEntries = true) // 캐시 데이터 비우기 or Config 파일에서 TTL 설정해도 됨
-    @Scheduled(cron = "${scheduler.scrap.yahoo}")
+    @Scheduled(cron = "${spring.scheduler.scrap.yahoo}")
     public void yahooFinanceScheduler() {
 
         log.info("scraping scheduler is started");
@@ -50,6 +50,7 @@ public class ScraperScheduler {
                         boolean exists = this.dividendRepository.existsByCompanyIdAndDate(company.getId(), e.getDate());
                         if(!exists){
                             this.dividendRepository.save(e);
+                            log.info("insert new dividend -> " + e);
                         }
                     });
 

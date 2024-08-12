@@ -1,16 +1,17 @@
 package panicathe.dividend.web;
 
 import lombok.AllArgsConstructor;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import panicathe.dividend.model.Company;
+import panicathe.dividend.model.constants.CacheKey;
 import panicathe.dividend.persist.entity.CompanyEntity;
 import panicathe.dividend.service.CompanyService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/company")
@@ -18,6 +19,7 @@ import java.util.List;
 public class CompanyController {
 
     private final CompanyService companyService;
+    private final CacheManager redisCacheManager;
 
     @GetMapping("/autocomplete")
     public ResponseEntity<?> autocomplete(@RequestParam String keyword)
@@ -26,6 +28,7 @@ public class CompanyController {
        return ResponseEntity.ok(result);
     }
 
+    @PreAuthorize("hasRole('READ')")
     @GetMapping
     public ResponseEntity<?> searchCompany(final Pageable pageable)
     {
@@ -33,6 +36,7 @@ public class CompanyController {
         return ResponseEntity.ok(companies);
     }
 
+    @PreAuthorize("hasRole('WRITE')")
     @PostMapping
     public ResponseEntity<?> addCompany(@RequestBody Company request)
     {
@@ -47,9 +51,16 @@ public class CompanyController {
         return ResponseEntity.ok(savedCompany);
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deleteCompany()
+    @PreAuthorize("hasRole('WRITE')")
+    @DeleteMapping("/{ticker}")
+    public ResponseEntity<?> deleteCompany(@PathVariable String ticker)
     {
-        return null;
+        String companyName = this.companyService.deleteCompany(ticker);
+        this.clearFinanceCache(companyName);
+        return ResponseEntity.ok(companyName);
+    }
+
+    public void clearFinanceCache(String companyName){
+        this.redisCacheManager.getCache(CacheKey.KEY_FINANCE).evict(companyName);
     }
 }

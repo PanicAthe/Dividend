@@ -2,9 +2,9 @@ package panicathe.dividend.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.Cache;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import panicathe.dividend.exception.impl.NoCompanyException;
 import panicathe.dividend.model.Company;
 import panicathe.dividend.model.Dividend;
 import panicathe.dividend.model.ScrapedResult;
@@ -31,7 +31,7 @@ public class FinanceService {
 
         // 회사명으로 회사 정보 조회
         CompanyEntity company = this.companyRepository.findByName(companyName)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 회사명"));
+                .orElseThrow(() -> new NoCompanyException());
 
         // 조회된 회사 ID 로 배당금 정보 조회
         List<DividendEntity> dividendEntityList = this.dividendRepository.findAllByCompanyId(company.getId());

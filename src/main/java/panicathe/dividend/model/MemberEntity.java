@@ -1,17 +1,11 @@
 package panicathe.dividend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +15,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "MEMBER")
+@Builder
 public class MemberEntity implements UserDetails {
 
     @Id
@@ -31,6 +26,9 @@ public class MemberEntity implements UserDetails {
 
     private String password;
 
+    @ElementCollection
+    @CollectionTable(name = "ROLES")
+    @Column(name = "ROLES")
     private List<String> roles;
 
     @Override

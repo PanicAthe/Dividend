@@ -1,0 +1,49 @@
+### GET - finance/dividend/{companyName}
+GET http://localhost:8080/finance/dividend/3M Company
+
+
+### GET - company/autocomplete
+GET http://localhost:8080/company/autocomplete?keyword=3
+
+
+### GET - company
+GET http://localhost:8080/company
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiYW5hbmEiLCJyb2xlcyI6WyJST0xFX1dSSVRFIiwiUk9MRV9SRUFEIl0sImlhdCI6MTcyMzM1NjQ5NCwiZXhwIjoxNzIzMzYwMDk0fQ.czp2-0au4OkTBVGl6FMgKhw_NvipvishOaYoEPOC3QLZEF5VWsfqcPgZPcgyGY-D1uL6r1Hs5RPcoz3IxmlRvw
+
+
+### POST - company
+POST http://localhost:8080/company
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiYW5hbmEiLCJyb2xlcyI6WyJST0xFX1dSSVRFIiwiUk9MRV9SRUFEIl0sImlhdCI6MTcyMzM1NjQ5NCwiZXhwIjoxNzIzMzYwMDk0fQ.czp2-0au4OkTBVGl6FMgKhw_NvipvishOaYoEPOC3QLZEF5VWsfqcPgZPcgyGY-D1uL6r1Hs5RPcoz3IxmlRvw
+Content-Type: application/json
+
+{
+  "ticker": "MMM"
+}
+
+### DELETE - company/{ticker}
+DELETE http://localhost:8080/company/MMM
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJiYW5hbmEiLCJyb2xlcyI6WyJST0xFX1dSSVRFIiwiUk9MRV9SRUFEIl0sImlhdCI6MTcyMzM1NjQ5NCwiZXhwIjoxNzIzMzYwMDk0fQ.czp2-0au4OkTBVGl6FMgKhw_NvipvishOaYoEPOC3QLZEF5VWsfqcPgZPcgyGY-D1uL6r1Hs5RPcoz3IxmlRvw
+
+
+### POST - auth/signup
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+  "username": "banana",
+  "password": "bananana",
+  "roles": ["ROLE_WRITE", "ROLE_READ"]
+}
+
+### POST - auth/signin
+POST http://localhost:8080/auth/signin
+Content-Type: application/json
+
+{
+"username": "banana",
+"password": "bananana"
+
+}
+
+
+

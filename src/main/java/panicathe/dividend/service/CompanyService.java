@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import panicathe.dividend.exception.impl.NoCompanyException;
 import panicathe.dividend.model.Company;
 import panicathe.dividend.model.ScrapedResult;
 import panicathe.dividend.persist.CompanyRepository;
@@ -82,5 +83,17 @@ public class CompanyService {
 
     public void deleteAutocompleteKeyword(String keyword){
         this.trie.remove(keyword);
+    }
+
+    public String deleteCompany(String ticker) {
+        var company = this.companyRepository.findByTicker(ticker)
+                .orElseThrow(()-> new NoCompanyException());
+
+        this.dividendRepository.deleteAllByCompanyId(company.getId());
+        this.companyRepository.delete(company);
+
+        this.deleteAutocompleteKeyword(company.getName());
+
+        return company.getName();
     }
 }
